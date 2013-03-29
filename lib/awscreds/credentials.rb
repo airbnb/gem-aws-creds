@@ -1,4 +1,8 @@
 module AWSCreds
+  class InvalidCredentials < Exception; end
+  class InvalidAccessKeyId < InvalidCredentials; end
+  class InvalidSecretAccessKey < InvalidCredentials; end
+
   class Credentials
     attr_reader :access_key_id, :secret_access_key
 
@@ -20,9 +24,9 @@ module AWSCreds
 
     private
     def validate
-      raise 'Incorrect length for Access Key ID' unless access_key_id.length == 20
-      raise 'Access Key ID contains invalid characters' unless access_key_id =~ /^[A-Z0-9]{20}$/
-      raise 'Incorrect length for Secret Access Key' unless secret_access_key.length == 40
+      raise InvalidAccessKeyId.new 'Incorrect length for Access Key ID' unless access_key_id.length == 20
+      raise InvalidAccessKeyId.new 'Access Key ID contains invalid characters' unless access_key_id =~ /^[A-Z0-9]{20}$/
+      raise InvalidSecretAccessKey.new 'Incorrect length for Secret Access Key' unless secret_access_key.length == 40
     end
   end
 end

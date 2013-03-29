@@ -1,6 +1,8 @@
 require 'awscreds/credentials'
 
 module AWSCreds
+  class InvalidKeyTab < Exception; end
+
   class Store < Hash
     def initialize opts={}
 
@@ -22,8 +24,7 @@ module AWSCreds
     end
 
     def default_creds
-      return self[@default] if self.has_key? @default
-      raise "Could not find credentials for #{@default}"
+      self[@default]
     end
 
     def default? name
@@ -35,14 +36,14 @@ module AWSCreds
 
       mode = File.stat(path).mode & 07777
       unless mode & 07077 == 0
-        raise "Unsafe permissions (#{sprintf '%#04o', mode}) for #{path}!"
+        raise InvalidKeyTab.new "Unsafe permissions (#{sprintf '%#04o', mode}) for #{path}!"
       end
 
       contents = File.read path
 
       contents.lines.each do |line, idx|
         fields = line.chomp.split ':'
-        raise "Missing fields in line #{idx} of #{path}" unless fields.length >= 3
+        raise InvalidKeyTab.new "Missing fields in line #{idx} of #{path}" unless fields.length >= 3
         self[fields[0]] = Credentials.new fields[1], fields[2]
       end
 
