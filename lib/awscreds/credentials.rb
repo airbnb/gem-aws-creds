@@ -18,7 +18,7 @@ module AWSCreds
 
     # Make it harder to leak secrets by accident
     def to_s
-      "<#{self.class}: #{access_key_id[0..10]}...>"
+      "<#{self.class}: #{access_key_id[0..9]}...>"
     end
     alias_method :inspect, :to_s
 
