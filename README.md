@@ -1,6 +1,6 @@
 # AWSCreds
 
-AWSCreds exposes your AWS credentials through the command line or Ruby API.
+AWSCreds exposes your AWS credentials through a command line utility and a Ruby API.
 
 ## Why?
 
@@ -39,9 +39,9 @@ Or install it yourself as:
 
 ### Storage
 
-Put your AWS credentials in `~/awscreds`, one line per credentials, with the following colon-separated fields:
+Put your AWS credentials in `~/.awscreds`, one line per credentials, with the following colon-separated fields:
 
-- A name for your credentials (the magic name "default" will be picked by tools unless specified otherwise)
+- A name for your credentials (the magic name "default" will be picked unless specified otherwise)
 - The Access Key ID (20 characters, alphanumeric)
 - The Secret Access Key (40 characters)
 
