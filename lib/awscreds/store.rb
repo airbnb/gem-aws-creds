@@ -5,10 +5,9 @@ module AWSCreds
 
   class Store < Hash
     def initialize opts={}
-
-      if opts[:load_user_keytab].nil? or opts[:load_user_keytab]
-        import_keytab '~/.awscreds'
-      end
+      # :keytab => false to disable autoloading
+      keytab = opts[:keytab] || '~/.awscreds'
+      import_keytab keytab if keytab
 
       @default = opts[:default]
       @default ||= ENV['AWS_IDENTITY'] unless opts[:ignore_environment]
