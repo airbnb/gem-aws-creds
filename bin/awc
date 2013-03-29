@@ -29,7 +29,15 @@ if opts.list
   end
 else
   creds = store.default_creds
-  ENV['AWS_ACCESS_KEY'] = creds.access_key_id
-  ENV['AWS_SECRET_KEY'] = creds.secret_access_key
+
+  # set all the environment variables that various aws tools expect
+  %w[AWS_ACCESS_KEY AWSAccessKeyId AWS_ACCESS_KEY_ID].each do |var|
+    ENV[var] = creds.access_key_id
+  end
+
+  %w[AWS_SECRET_KEY AWSSecretKey AWS_SECRET_ACCESS_KEY].each do |var|
+    ENV[var] = creds.access_key_id
+  end
+
   exec(*ARGV)
 end
