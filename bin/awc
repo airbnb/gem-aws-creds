@@ -16,21 +16,31 @@ opts = Trollop::with_standard_exception_handling parser do
   parser.parse ARGV
 end
 
-store =AWSCreds::Store.new({:default => opts.identity})
+def no_keytab path
+  STDERR.puts <<-EOH
+awc couldn't find a keytab at #{path}.
 
-if opts.list
+Please create one with something like:
+
+default:AKIAIOSFODNNDEADBEEF:WT8ftNba7siVx5UOoGzJSyd82uNCZAC8LCllzcWp
+admin:AKIAIOO432MG8BADF00D:T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
+EOH
+  exit false
+end
+
+def list_keys store, verbose=false
   store.each do |name, creds|
     prefix = store.default?(name) ? '*' : ' '
-    if opts.verbose
+    if verbose
       puts "#{prefix}#{name}\t#{creds.access_key_id}\t#{creds.secret_access_key}"
     else
       puts "#{prefix}#{name}"
     end
   end
-else
-  creds = store.default_creds
+end
 
-  # set all the environment variables that various aws tools expect
+# set all the environment variables that various AWS tools expect
+def update_env_for creds
   %w[AWS_ACCESS_KEY AWSAccessKeyId AWS_ACCESS_KEY_ID].each do |var|
     ENV[var] = creds.access_key_id
   end
@@ -38,6 +48,17 @@ else
   %w[AWS_SECRET_KEY AWSSecretKey AWS_SECRET_ACCESS_KEY].each do |var|
     ENV[var] = creds.access_key_id
   end
+end
 
-  exec(*ARGV)
+begin
+  store = AWSCreds::Store.new({:default => opts.identity})
+
+  if opts.list
+    list_keys store, opts.verbose
+  else
+    update_env_for store.default_creds
+    exec(*ARGV)
+  end
+rescue AWSCreds::MissingKeyTab => e
+  no_keytab e.path
 end
