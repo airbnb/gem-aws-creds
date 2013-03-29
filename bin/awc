@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'trollop'
+require 'awscreds'
+
+parser = Trollop::Parser.new do
+  banner 'AWS credentials exposer for command-line utilities'
+  opt :list, 'List available credentials', :short => '-l'
+  opt :verbose, 'Verbose (exposes secrets)', :short => '-v'
+  opt :identity, 'Identity', :type => :string, :short => '-i'
+  stop_on_unknown
+end
+
+opts = Trollop::with_standard_exception_handling parser do
+  raise Trollop::HelpNeeded if ARGV.empty?
+  parser.parse ARGV
+end
+
+store =AWSCreds::Store.new({:default => opts.identity})
+
+if opts.list
+  store.each do |name, creds|
+    prefix = store.default?(name) ? '*' : ' '
+    if opts.verbose
+      puts "#{prefix}#{name}\t#{creds.access_key_id}\t#{creds.secret_access_key}"
+    else
+      puts "#{prefix}#{name}"
+    end
+  end
+else
+  creds = store.default_creds
+  ENV['AWS_ACCESS_KEY'] = creds.access_key_id
+  ENV['AWS_SECRET_KEY'] = creds.secret_access_key
+  exec(*ARGV)
+end
