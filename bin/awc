@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'trollop'
-require 'awscreds'
+require 'aws/creds'
 
 parser = Trollop::Parser.new do
   banner 'AWS credentials exposer for command-line utilities'
@@ -51,14 +51,14 @@ def update_env_for creds
 end
 
 begin
-  store = AWSCreds::Store.new({:default => opts.identity})
+  store = AWS::Creds::Store.new({:default => opts.identity})
 
   if opts.list
     list_keys store, opts.verbose
   else
-    update_env_for store.default_creds
+    update_env_for store.default_keypair
     exec(*ARGV)
   end
-rescue AWSCreds::MissingKeyTab => e
+rescue AWS::Creds::MissingKeyTab => e
   no_keytab e.path
 end

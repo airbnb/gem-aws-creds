@@ -2,16 +2,16 @@
 lib = File.expand_path '../lib', __FILE__
 $LOAD_PATH.unshift lib unless $LOAD_PATH.include? lib
 
-require 'awscreds/version'
+require 'aws/creds/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'awscreds'
-  spec.version       = AWSCreds::VERSION
+  spec.name          = 'aws-creds'
+  spec.version       = AWS::Creds::VERSION
   spec.authors       = ['Pierre Carrier']
   spec.email         = ['pierre@gcarrier.fr']
   spec.description   = 'AWS credentials manager'
   spec.summary       = 'AWSCreds exposes your AWS credentials through the command line or Ruby API'
-  spec.homepage      = 'https://github.com/airbnb/awscreds'
+  spec.homepage      = 'https://github.com/airbnb/gem-aws-creds'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split $/

@@ -1,21 +1,21 @@
 require 'test/unit'
-require 'awscreds/credentials'
+require 'aws/creds/keypair'
 require 'aws-sdk'
 
-class TestCredentials < Test::Unit::TestCase
+class TestKeyPairs < Test::Unit::TestCase
   INVALID_CASES = {
-    AWSCreds::InvalidAccessKeyId => [
+    AWS::Creds::InvalidAccessKeyId => [
       %w[AKIAIOSFODNNDEADBEE  WT8ftNba7siVx5UOoGzJSyd82uNCZAC8LCllzcWp],
       %w[AKIAIOSFODNNDEADBEEFF WT8ftNba7siVx5UOoGzJSyd82uNCZAC8LCllzcWp],
       %w[AKIAIOSFODNNDEADBEE$ WT8ftNba7siVx5UOoGzJSyd82uNCZAC8LCllzcWp],
     ],
-    AWSCreds::InvalidSecretAccessKey => [
+    AWS::Creds::InvalidSecretAccessKey => [
       %w[AKIAIOSFODNNDEADBEEF WT8ftNba7siVx5UOoGzJSyd82uNCZAC8LCllzcW],
       %w[AKIAIOSFODNNDEADBEEF WT8ftNba7siVx5UOoGzJSyd82uNCZAC8LCllzcWpp],
     ]
   }
 
-  EXAMPLE = AWSCreds::Credentials.new 'F'*10 + '0'*10, '0'*40
+  EXAMPLE = AWS::Creds::KeyPair.new 'F'*10 + '0'*10, '0'*40
 
   def test_accessors
     assert_instance_of String, EXAMPLE.access_key_id
@@ -25,7 +25,7 @@ class TestCredentials < Test::Unit::TestCase
   def test_validation
     INVALID_CASES.each do |e, list|
       list.each do |pair|
-        assert_raise(e) {AWSCreds::Credentials.new(*pair)}
+        assert_raise(e) {AWS::Creds::KeyPair.new(*pair)}
       end
     end
   end

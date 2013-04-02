@@ -1,9 +1,9 @@
-module AWSCreds
-  class InvalidCredentials < Exception; end
-  class InvalidAccessKeyId < InvalidCredentials; end
-  class InvalidSecretAccessKey < InvalidCredentials; end
+module AWS; module Creds
+  class InvalidKeyPair < Exception; end
+  class InvalidAccessKeyId < InvalidKeyPair; end
+  class InvalidSecretAccessKey < InvalidKeyPair; end
 
-  class Credentials
+  class KeyPair
     attr_reader :access_key_id, :secret_access_key
 
     def initialize access_key_id, secret_access_key
@@ -29,4 +29,4 @@ module AWSCreds
       raise InvalidSecretAccessKey.new 'Incorrect length for Secret Access Key' unless secret_access_key.length == 40
     end
   end
-end
+end; end

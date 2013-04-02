@@ -1,6 +1,6 @@
-# AWSCreds
+# AWS::Creds
 
-AWSCreds exposes your AWS credentials through a command line utility and a Ruby API.
+AWS::Creds exposes your AWS credentials through a command line utility and a Ruby API.
 
 ## Why?
 
@@ -25,7 +25,7 @@ We wanted to address this problem with:
 
 Add this line to your application's Gemfile:
 
-    gem 'awscreds'
+    gem 'aws-creds'
 
 And then execute:
 
@@ -33,7 +33,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install awscreds
+    $ gem install aws-creds
 
 ## Usage
 
@@ -80,9 +80,9 @@ The Ruby gem should be easy to use (feedback is obviously welcome).
 
 Documentation should be improved; in the meantime, here is a simple example:
 
-    require 'awscreds'
+    require 'aws/creds'
     require 'aws'
-    creds = AWSCreds::Store.new.default_creds
+    creds = AWS::Creds[:default]
     STDERR.puts "Using access key #{creds.access_key_id}"
     AWS.config creds.to_hash
 

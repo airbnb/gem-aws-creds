@@ -1,6 +1,6 @@
-require 'awscreds/credentials'
+require 'aws/creds/keypair'
 
-module AWSCreds
+module AWS; module Creds
   class InvalidKeyTab < Exception
     attr_accessor :path, :msg
     def initialize path, msg=nil
@@ -33,7 +33,11 @@ module AWSCreds
       values
     end
 
-    def default_creds
+    def [] name
+      super name.to_s
+    end
+
+    def default_keypair
       self[@default]
     end
 
@@ -45,7 +49,7 @@ module AWSCreds
       read_config(path).lines.each do |line, idx|
         fields = line.chomp.split ':'
         raise InvalidKeyTab.new path, "missing fields line #{idx}" unless fields.length >= 3
-        self[fields[0]] = Credentials.new fields[1], fields[2]
+        self[fields[0]] = KeyPair.new fields[1], fields[2]
       end
       self
     end
@@ -64,4 +68,4 @@ module AWSCreds
       File.read path
     end
   end
-end
+end; end
