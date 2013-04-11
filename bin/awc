@@ -46,7 +46,7 @@ def update_env_for creds
   end
 
   %w[AWS_SECRET_KEY AWSSecretKey AWS_SECRET_ACCESS_KEY].each do |var|
-    ENV[var] = creds.access_key_id
+    ENV[var] = creds.secret_access_key
   end
 end
 
