@@ -78,7 +78,7 @@ Its effects can easily be inspected:
 
 The Ruby gem should be easy to use (feedback is obviously welcome).
 
-Documentation should be improved; in the meantime, here is a simple example:
+Documentation could be improved; in the meantime, here is a simple example:
 
     require 'aws/creds'
     require 'aws'
