@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>AWS::Creds by airbnb</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>AWS::Creds</h1>
+        <p>Easily manipulate and access AWS credentials</p>
+
+        <p class="view"><a href="https://github.com/airbnb/gem-aws-creds">View the Project on GitHub <small>airbnb/gem-aws-creds</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/airbnb/gem-aws-creds/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/airbnb/gem-aws-creds/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/airbnb/gem-aws-creds">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>AWS::Creds</h1>
+
+<p>AWS::Creds exposes your AWS credentials through a command line utility and a Ruby API.</p>
+
+<h2>Why?</h2>
+
+<p>There is plenty to get wrong when handling credentials:</p>
+
+<ul>
+<li>When storing them on disk, only your user should be able to read it. awscreds will raise an exception if its permissions are too broad.</li>
+<li>When passing it to programs, they shouldn't be passed through the command line, or other users can find them through ps.</li>
+<li>When manipulating credentials in a language like Ruby, it should be as hard as possible to leak secrets through logs or traces.</li>
+</ul><p>Using command-line AWS tools seemed to be painful as well:</p>
+
+<ul>
+<li>There seemed to be no simple way to maintain a set of AWS credentials for multiple identities, and pick one quickly.</li>
+<li>Different tools can use different environment variables, or offer different configuration file formats.</li>
+</ul><p>We wanted to address this problem with:</p>
+
+<ul>
+<li>A simple file format and well-known location, that could be easily reimplemented;</li>
+<li>A simple yet flexible Ruby API, so future tools do not need to reinvent the wheel;</li>
+<li>A command-line utility to easily pass the credentials of your choice to command line utilities.</li>
+</ul><h2>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<pre><code>gem 'aws-creds'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install aws-creds
+</code></pre>
+
+<h2>Usage</h2>
+
+<h3>Storage</h3>
+
+<p>Put your AWS credentials in <code>~/.awscreds</code>, one line per credentials, with the following colon-separated fields:</p>
+
+<ul>
+<li>A name for your credentials (the magic name "default" will be picked unless specified otherwise)</li>
+<li>The Access Key ID (20 characters, alphanumeric)</li>
+<li>The Secret Access Key (40 characters)</li>
+</ul><p>For example:</p>
+
+<pre><code>default:AKIAIOSFODNNDEADBEEF:WT8ftNba7siVx5UOoGzJSyd82uNCZAC8LCllzcWp
+admin:AKIAIOO432MG8BADF00D:T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
+</code></pre>
+
+<h3>Command-line utility</h3>
+
+<p><code>awc --help</code> should guide you.</p>
+
+<p>To list the available credentials, use <code>-l</code>:</p>
+
+<pre><code>$ awc -li admin
+ default
+*admin
+</code></pre>
+
+<p>To call <code>myscript put</code> and provide it with credentials, use:</p>
+
+<pre><code>$ awc myscript put
+</code></pre>
+
+<p>Its effects can easily be inspected:</p>
+
+<pre><code>$ awc -i admin env | grep AWS
+AWS_ACCESS_KEY=AKIAIOO432MG8BADF00D
+AWSAccessKeyId=AKIAIOO432MG8BADF00D
+AWS_ACCESS_KEY_ID=AKIAIOO432MG8BADF00D
+AWS_SECRET_KEY=T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
+AWSSecretKey=T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
+AWS_SECRET_ACCESS_KEY=T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
+</code></pre>
+
+<h3>Ruby API</h3>
+
+<p>The Ruby gem should be easy to use (feedback is obviously welcome).</p>
+
+<p>Documentation could be improved; in the meantime, here is a simple example:</p>
+
+<pre><code>require 'aws/creds'
+require 'aws'
+creds = AWS::Creds[:default]
+STDERR.puts "Using access key #{creds.access_key_id}"
+AWS.config creds.to_hash
+</code></pre>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/airbnb">airbnb</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
