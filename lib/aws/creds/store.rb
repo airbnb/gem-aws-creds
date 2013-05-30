@@ -13,6 +13,7 @@ module AWS; module Creds
   end
 
   class MissingKeyTab < InvalidKeyTab; end
+  class UnsafePerms   < InvalidKeyTab; end
 
   class Store < Hash
     def initialize opts={}
@@ -62,7 +63,7 @@ module AWS; module Creds
       mode = File.stat(path).mode & 07777
 
       unless mode & 07077 == 0
-        raise InvalidKeyTab.new path, "unsafe permissions (#{sprintf '%#04o', mode})"
+        raise UnsafePerms.new path, "unsafe permissions (#{sprintf '%#04o', mode}); please chmod go= #{File.expand_path path}"
       end
 
       File.read path
