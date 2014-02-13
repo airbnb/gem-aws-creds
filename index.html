@@ -28,11 +28,18 @@
         </ul>
       </header>
       <section>
-        <h1>AWS::Creds</h1>
+        <h1>
+<a name="awscreds" class="anchor" href="#awscreds"><span class="octicon octicon-link"></span></a>AWS::Creds</h1>
 
 <p>AWS::Creds exposes your AWS credentials through a command line utility and a Ruby API.</p>
 
-<h2>Why?</h2>
+<p><strong>As-is:</strong> This project is not actively maintained or supported.
+While updates may still be made and we welcome feedback, keep in mind we may not respond to pull requests or issues quickly.</p>
+
+<p><strong>Let us know!</strong> If you fork this, or if you use it, or if it helps in anyway, we'd love to hear from you! <a href="mailto:opensource@airbnb.com">opensource@airbnb.com</a></p>
+
+<h2>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?</h2>
 
 <p>There is plenty to get wrong when handling credentials:</p>
 
@@ -51,7 +58,8 @@
 <li>A simple file format and well-known location, that could be easily reimplemented;</li>
 <li>A simple yet flexible Ruby API, so future tools do not need to reinvent the wheel;</li>
 <li>A command-line utility to easily pass the credentials of your choice to command line utilities.</li>
-</ul><h2>Installation</h2>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Add this line to your application's Gemfile:</p>
 
@@ -68,9 +76,11 @@
 <pre><code>$ gem install aws-creds
 </code></pre>
 
-<h2>Usage</h2>
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<h3>Storage</h3>
+<h3>
+<a name="storage" class="anchor" href="#storage"><span class="octicon octicon-link"></span></a>Storage</h3>
 
 <p>Put your AWS credentials in <code>~/.awscreds</code>, one line per credentials, with the following colon-separated fields:</p>
 
@@ -84,7 +94,8 @@
 admin:AKIAIOO432MG8BADF00D:T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
 </code></pre>
 
-<h3>Command-line utility</h3>
+<h3>
+<a name="command-line-utility" class="anchor" href="#command-line-utility"><span class="octicon octicon-link"></span></a>Command-line utility</h3>
 
 <p><code>awc --help</code> should guide you.</p>
 
@@ -111,7 +122,8 @@ AWSSecretKey=T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
 AWS_SECRET_ACCESS_KEY=T60q14wrbyxl3Ed13VOFA/2G+nvJR/jgHC42jIH1
 </code></pre>
 
-<h3>Ruby API</h3>
+<h3>
+<a name="ruby-api" class="anchor" href="#ruby-api"><span class="octicon octicon-link"></span></a>Ruby API</h3>
 
 <p>The Ruby gem should be easy to use (feedback is obviously welcome).</p>
 
@@ -124,7 +136,8 @@ STDERR.puts "Using access key #{creds.access_key_id}"
 AWS.config creds.to_hash
 </code></pre>
 
-<h2>Contributing</h2>
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <ol>
 <li>Fork it</li>
