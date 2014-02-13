@@ -2,6 +2,11 @@
 
 AWS::Creds exposes your AWS credentials through a command line utility and a Ruby API.
 
+**As-is:** This project is not actively maintained or supported.
+While updates may still be made and we welcome feedback, keep in mind we may not respond to pull requests or issues quickly.
+
+**Let us know!** If you fork this, or if you use it, or if it helps in anyway, we'd love to hear from you! opensource@airbnb.com
+
 ## Why?
 
 There is plenty to get wrong when handling credentials:
